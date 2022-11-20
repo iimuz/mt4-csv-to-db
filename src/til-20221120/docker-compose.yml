@@ -16,5 +16,6 @@ services:
       - type: bind
         source: .
         target: $PWD
+    env_file: .env
     command: python -h
     user: $USER
