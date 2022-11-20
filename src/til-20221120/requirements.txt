@@ -1,5 +1,6 @@
 # main packages
 pydantic
+sqlalchemy
 
 # dev packaegs
 black
