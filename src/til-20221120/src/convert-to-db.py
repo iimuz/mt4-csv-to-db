@@ -8,18 +8,30 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
+import src.db as db
+import src.history as history
+
 _logger = logging.getLogger(__name__)
 
 
 class _RunConfig(BaseModel):
     # スクリプト実行時のオプション設定.
 
-    verbose: int
+    init_db: bool  # Trueの場合は、データベースにテーブルを生成
+
+    verbose: int  # ログ出力のレベル
 
 
 def _parse_arguments() -> _RunConfig:
     # スクリプトの実行時引数の取得.
     parser = ArgumentParser()
+
+    parser.add_argument(
+        "--init-db",
+        action="store_true",
+        default=False,
+        help="Create database tables.",
+    )
 
     parser.add_argument(
         "-v",
@@ -52,6 +64,11 @@ def _main() -> None:
     }.get(config.verbose, 0)
     _setup_logger(log_level)
     _logger.info(f"config: {pprint.pformat(config.dict())}")
+
+    # データベースの初期化
+    if config.init_db:
+        _logger.info("Create table...")
+        db.Base.metadata.create_all(bind=db.ENGINE)
 
     # 対象ファイルの取得
     filelist_generator = Path("data/raw").glob("**/*.csv")
