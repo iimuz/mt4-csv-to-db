@@ -1,7 +1,10 @@
 """MT4の履歴を出力したcsvファイルをDBに取り込むスクリプト."""
+import csv
 import logging
+import pprint
 import sys
 from argparse import ArgumentParser
+from pathlib import Path
 
 from pydantic import BaseModel
 
@@ -34,7 +37,7 @@ def _parse_arguments() -> _RunConfig:
 
 def _setup_logger(level: int) -> None:
     # ロガーの設定.
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=level)
 
 
 def _main() -> None:
@@ -48,6 +51,17 @@ def _main() -> None:
         2: logging.DEBUG,
     }.get(config.verbose, 0)
     _setup_logger(log_level)
+    _logger.info(f"config: {pprint.pformat(config.dict())}")
+
+    # 対象ファイルの取得
+    filelist_generator = Path("data/raw").glob("**/*.csv")
+
+    for filepath in filelist_generator:
+        _logger.debug(f"target file: {filepath}")
+        with filepath.open("rt", newline="") as f:
+            reader = csv.DictReader(f)
+            for r in reader:
+                _logger.debug(r)
 
     _logger.info("success!")
 
