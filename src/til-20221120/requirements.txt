@@ -1,4 +1,5 @@
 # main packages
+pydantic
 
 # dev packaegs
 black
