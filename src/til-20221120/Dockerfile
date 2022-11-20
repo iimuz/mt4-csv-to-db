@@ -1,4 +1,4 @@
-FROM python:3.10.8-buster
+FROM python:3.10.8-buster AS base
 
 ARG USERNAME=vscode
 ARG USER_UID=1000
@@ -13,4 +13,18 @@ RUN set -x \
 
 ENV DEBIAN_FRONTEND=dialog
 
+USER $USERNAME
 CMD ["python"]
+
+FROM base AS development
+
+USER root
+
+RUN set -x \
+  && : "Install packages for sqlite3." \
+  && apt-get update -qq \
+  && apt-get install -qq -y --no-install-recommends sqlite3 \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+USER $USERNAME
