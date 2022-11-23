@@ -37,6 +37,14 @@ pip freeze > requirements-freeze.txt
 pip install -r requirements-freeze.txt
 ```
 
+## 環境変数
+
+下記の環境変数を利用します。
+
+- `USER_UID`, `USER_GID`: VSCode remote developmentのdocker環境で利用するユーザIDとグループID。
+- `TIMEZONE_HOURS`: csvから読み込んだ時刻のタイムゾーンを特定するためのUTCからの時差。
+  - MT4の履歴取得ではタイムゾーンを付けた表記になっていないため、タイムゾーンを付与する。ただし、保存時はUTCに補正して保存する。
+
 ## code style
 
 コードの整形などは下記を利用しています。
