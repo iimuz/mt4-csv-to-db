@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: base
+      target: production
       args:
         USERNAME: $USER
         USER_UID: $USER_UID
@@ -17,5 +17,5 @@ services:
         source: .
         target: $PWD
     env_file: .env
-    command: python -h
+    command: python src/convert-to-db.py -v
     user: $USER
