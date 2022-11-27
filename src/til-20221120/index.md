@@ -1,6 +1,6 @@
 # MT4 csv to DB
 
-[MT4 の履歴を csv 化するスクリプト](https://github.com/iimuz/til/til-20221106/)で出力した csv を DB に取り込むためのスクリプトです。
+[MT4 の履歴を csv 化するスクリプト](https://github.com/iimuz/til/src/til-20221106/)で出力した csv を DB に取り込むためのスクリプトです。
 
 ## ファイル構成
 
