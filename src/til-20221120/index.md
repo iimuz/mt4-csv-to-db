@@ -2,6 +2,18 @@
 
 [MT4 の履歴を csv 化するスクリプト](https://github.com/iimuz/til/src/til-20221106/)で出力した csv を DB に取り込むためのスクリプトです。
 
+## 実行方法
+
+下記の手順でデフォルトの引数で実行ができます。
+
+1. `.sample.env` を元に `.env` ファイルを作成
+1. docker compose を利用して実行
+
+   ```sh
+   docker compose build
+   docker compose run --rm -it app
+   ```
+
 ## ファイル構成
 
 - `.gitignore`: [python 用の gitignore](https://github.com/github/gitignore/blob/main/Python.gitignore) です。
@@ -13,6 +25,14 @@
 - `.vscode`: VSCode の基本設定を記述します。
 - `.devcontainer`: VSCode Remote Containers の設定を記述します。
 - `src`: 開発するスクリプトを格納します。
+
+## 環境変数
+
+下記の環境変数を利用します。
+
+- `USER_UID`, `USER_GID`: VSCode remote development の docker 環境で利用するユーザ ID とグループ ID。
+- `TIMEZONE_HOURS`: csv から読み込んだ時刻のタイムゾーンを特定するための UTC からの時差。
+  - MT4 の履歴取得ではタイムゾーンを付けた表記になっていないため、タイムゾーンを付与する。ただし、保存時は UTC に補正して保存する。
 
 ## 仮想環境の構築
 
@@ -36,14 +56,6 @@ pip freeze > requirements-freeze.txt
 # recreate virtual env
 pip install -r requirements-freeze.txt
 ```
-
-## 環境変数
-
-下記の環境変数を利用します。
-
-- `USER_UID`, `USER_GID`: VSCode remote developmentのdocker環境で利用するユーザIDとグループID。
-- `TIMEZONE_HOURS`: csvから読み込んだ時刻のタイムゾーンを特定するためのUTCからの時差。
-  - MT4の履歴取得ではタイムゾーンを付けた表記になっていないため、タイムゾーンを付与する。ただし、保存時はUTCに補正して保存する。
 
 ## code style
 
